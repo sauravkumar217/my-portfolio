@@ -1,21 +1,25 @@
+# Use Maven with Amazon Corretto JDK 21
 FROM maven:3.9.9-amazoncorretto-21-al2023 AS build
 
 WORKDIR /app
 
-# Copy pom.xml and source code
+# Copy only pom.xml first and download dependencies (for better caching)
 COPY pom.xml .
-COPY src ./src
+RUN mvn dependency:go-offline
+
+# Copy the entire source code
+COPY . .
 
 # Build the application
 RUN mvn clean package -DskipTests
 
-# Use OpenJDK 21 to run the application
+# Use Amazon Corretto 21 for running the app
 FROM amazoncorretto:21-al2023
 
 WORKDIR /app
 
-# Copy the built JAR file from the build stage
-COPY --from=build /app/target/splitify-backend-0.0.1.jar app.jar
+# Copy the JAR file from the build stage (use wildcard to avoid hardcoded names)
+COPY --from=build /app/target/*.jar app.jar
 
 # Expose port 8080
 EXPOSE 8080
