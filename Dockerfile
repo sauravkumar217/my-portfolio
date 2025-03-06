@@ -1,5 +1,6 @@
 # Stage 1: Build the application
-FROM maven:3.8.8-openjdk-17 AS builder
+FROM maven:latest AS build  # Uses the latest available Maven image
+
 WORKDIR /app
 COPY pom.xml ./
 COPY src ./src
