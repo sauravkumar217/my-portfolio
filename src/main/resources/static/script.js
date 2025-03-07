@@ -1,4 +1,22 @@
-// toggle icon navbar
+// script.js
+
+// Add skeleton loading control
+document.body.classList.add('loading'); // Start with loading state
+
+function hideSkeleton() {
+    const skeleton = document.querySelector('.skeleton');
+    if (skeleton) {
+        skeleton.classList.add('hidden');
+    }
+    document.body.classList.remove('loading');
+}
+
+// Hide skeleton when page is fully loaded (including images)
+window.addEventListener('load', () => {
+    hideSkeleton();
+});
+
+// Toggle icon navbar
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
@@ -7,7 +25,7 @@ menuIcon.onclick = () => {
     navbar.classList.toggle('active');
 }
 
-// scroll sections
+// Scroll sections
 let sections = document.querySelectorAll('section');
 let navLinks = document.querySelectorAll('header nav a');
 
@@ -18,7 +36,7 @@ window.onscroll = () => {
         let height = sec.offsetHeight;
         let id = sec.getAttribute('id');
 
-        if(top >= offset && top < offset + height) {
+        if (top >= offset && top < offset + height) {
             // active navbar links
             navLinks.forEach(links => {
                 links.classList.remove('active');
@@ -47,12 +65,11 @@ window.onscroll = () => {
 
     footer.classList.toggle('show-animate', this.innerHeight + this.scrollY >= document.scrollingElement.scrollHeight);
 }
-document.querySelectorAll('.skills-content .progress .bar span[data-width]').forEach(span => {
-    const width = span.getAttribute('data-width');
-    span.style.width = `${width}%`;
-});
 
-// script.js
+// Note: Removed the skills progress bar code since your CSS handles widths directly
+// If you want to use data-width attributes instead, let me know!
+
+// Contact form submission
 document.getElementById('contact-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
